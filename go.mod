@@ -25,6 +25,7 @@ require (
 	github.com/go-openapi/strfmt v0.20.1
 	github.com/go-zookeeper/zk v1.0.2
 	github.com/gogo/protobuf v1.3.2
+	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/golang/snappy v0.0.4
 	github.com/google/pprof v0.0.0-20210726183535-c50bf4fe5303
 	github.com/gophercloud/gophercloud v0.19.0

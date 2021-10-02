@@ -25,6 +25,6 @@ npm_licenses.tar.bz2
 
 /vendor
 /.build
-prometheus
-promtool
 web/
+.idea
+bin/
