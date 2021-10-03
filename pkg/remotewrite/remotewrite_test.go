@@ -37,7 +37,7 @@ func Test_RemoteWriteClient(t *testing.T){
 				Samples: []prompb.Sample{
 					{
 						Value: 123.456,
-						Timestamp: time.Now().UnixMilli(),
+						Timestamp: time.Now().UnixNano()/1000000,
 					},
 				},
 			},
@@ -47,8 +47,11 @@ func Test_RemoteWriteClient(t *testing.T){
 	buf,_ := proto.Marshal(st)
 	dst := make([]byte, 0, len(buf))
 	dst = snappy.Encode(dst, buf)
+	//http://11.135.205.116/
 	//
-	req,_ := http.NewRequest("POST","http://127.0.0.1:9089/api/v1/receive", bytes.NewReader(dst))
+	url := "http://127.0.0.1:9089/api/v1/receive"
+	url = "http://11.135.205.116/api/v1/receive"
+	req,_ := http.NewRequest("POST",url, bytes.NewReader(dst))
 	rsp, err := http.DefaultClient.Do(req)
 	if err!=nil{
 		t.Errorf(err.Error())

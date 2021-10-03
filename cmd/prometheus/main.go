@@ -312,6 +312,9 @@ func main() {
 
 	a.Flag("enable-feature", "Comma separated feature names to enable. Valid options: promql-at-modifier, promql-negative-offset, remote-write-receiver, exemplar-storage, expand-external-labels. See https://prometheus.io/docs/prometheus/latest/feature_flags/ for more details.").
 		Default("").StringsVar(&cfg.featureList)
+	remoteWriteRecieveAddr := ""
+	a.Flag("remote-write-receive-addr", "use remote write protocol to receive metric data, so Prometheus can use push mode, like thanos receiver.").
+		Default("").StringVar(&remoteWriteRecieveAddr)
 
 	promlogflag.AddFlags(a, &cfg.promlogConfig)
 
@@ -442,8 +445,10 @@ func main() {
 		remoteStorage = remote.NewStorage(log.With(logger, "component", "remote"), prometheus.DefaultRegisterer, localStorage.StartTime, cfg.localStoragePath, time.Duration(cfg.RemoteFlushDeadline), scraper)
 		fanoutStorage = storage.NewFanout(logger, localStorage, remoteStorage)
 	)
-	//run remotewrite server, so prometheus can use push mode
-	go remotewrite.RunRemoteWriteSvr(fanoutStorage)
+	if len(remoteWriteRecieveAddr)>0 {
+		//run remotewrite server, so prometheus can use push mode
+		go remotewrite.RunRemoteWriteSvr(remoteWriteRecieveAddr, fanoutStorage)
+	}
 
 	var (
 		ctxWeb, cancelWeb = context.WithCancel(context.Background())

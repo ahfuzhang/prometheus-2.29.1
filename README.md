@@ -1,3 +1,13 @@
+I add remote write to prometheus.
+use http port 9089.
+so than prometheus can use push mode. :-(
+don't hate me.
+
+use `--remote-write-receive-addr=:9089` to start receiver.
+* performance: 45491 datapoint per second
+* thanos receiver performance is 43177/s ~ 80126/s
+  - see: https://www.cnblogs.com/ahfuzhang/p/15320082.html
+
 # Prometheus
 
 [![CircleCI](https://circleci.com/gh/prometheus/prometheus/tree/main.svg?style=shield)][circleci]
