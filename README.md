@@ -8,6 +8,21 @@ use `--remote-write-receive-addr=:9089` to start receiver.
 * thanos receiver performance is 43177/s ~ 80126/s
   - see: https://www.cnblogs.com/ahfuzhang/p/15320082.html
 
+----
+or Use flag:  "remote-write-receiver"
+code loc:  storage/remote/write_handler.go
+```
+//   web/api/v1/api.go
+func (api *API) remoteWrite(w http.ResponseWriter, r *http.Request)
+```
+
+```
+func (api *API) Register(r *route.Router)
+//   r.Post("/write", api.ready(http.HandlerFunc(api.remoteWrite)))
+//   add line:
+//   r.Post("/receive", api.ready(http.HandlerFunc(api.remoteWrite)))
+```
+
 # Prometheus
 
 [![CircleCI](https://circleci.com/gh/prometheus/prometheus/tree/main.svg?style=shield)][circleci]
