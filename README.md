@@ -1,3 +1,8 @@
+2021-11-01:
+* add two flags:
+  - --mem.max==32G  set max memory of container
+  - --mem.min=512M min memory to reserve. if free mem less than mem.min, remote write will return 302
+----
 I add remote write to prometheus.
 use http port 9089.
 so than prometheus can use push mode. :-(
